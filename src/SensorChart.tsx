@@ -48,6 +48,7 @@ interface SensorReading {
 
 interface PlotProps extends WithStyles<typeof styles> {
     data: SensorReading[],
+    data2: SensorReading[]
 }
 
 const SensorChart: React.FunctionComponent<PlotProps> = props => {
@@ -116,7 +117,21 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
                         y: reading.value,
                     }
                 }),
-        }]);
+            
+            },
+            {
+                id: "Temperature2",
+                data: props.data2
+                    .sort((r1, r2) => r1.time - r2.time)
+                    .map(reading => {
+                        return {
+                            x: reading.time,
+                            y: reading.value,
+                        }
+                    }),
+                
+                }
+            ]);
 
         let yValues = props.data.map(d => d.value);
         let minValue = yValues.reduce((v1, v2) => v1 > v2 ? v2 : v1);
@@ -176,7 +191,8 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
             curve={"monotoneX"}
             data={series}
             theme={chartTheme()}
-            colors={[hover ? light : dark]}
+            // colors={[hover ? light : dark]}
+            colors={{ scheme: 'dark2'}}
             enableGridY={hover}
             enableGridX={hover}
             margin={margin}
@@ -189,6 +205,31 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
             useMesh={true}
             crosshairType="cross"
             tooltip={toolTipElement}
+            legends={[
+                {
+                    anchor: 'top-left',
+                    direction: 'column',
+                    justify: false,
+                    translateX: 0,
+                    translateY: 0,
+                    itemWidth: 100,
+                    itemHeight: 20,
+                    itemsSpacing: 4,
+                    symbolSize: 20,
+                    symbolShape: 'circle',
+                    itemDirection: 'left-to-right',
+                    itemTextColor: '#777',
+                    effects: [
+                        {
+                            on: 'hover',
+                            style: {
+                                itemBackground: 'rgba(0, 0, 0, .03)',
+                                itemOpacity: 1
+                            }
+                        }
+                    ]
+                }
+            ]}
         />
     </div>
 };
