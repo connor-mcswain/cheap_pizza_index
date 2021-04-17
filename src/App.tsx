@@ -34,11 +34,36 @@ const styles = createStyles({
 });
 
 const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
-    const [checkboxes, setCheckBoxes] = useState([{id: 1, value: "cpi", isChecked: true}, {id: 2, value: "m2", isChecked: true}]);
+    const [checked, setChecked] = useState(false);
+    const [inflation, setInflation] = useState(inflationData);
+    const [cpi, setCpi] = useState(cpiData);
+    
+    //const [checkboxes, setCheckBoxes] = useState([{id: 1, value: "cpi", isChecked: true}, {id: 2, value: "m2", isChecked: true}]);
+
+    const checkboxSelect = () => {
+        console.log(inflation)
+        setChecked(checked => !checked)
+        if (inflation == inflationData) {
+            setInflation(cpiData)
+            setCpi(inflationData)
+        }
+        else {
+            setInflation(inflationData)
+            setCpi(cpiData)
+        }
+        
+    };
+
     return <MuiThemeProvider theme={theme}>
         <div className={props.classes.root}>
+            <input
+                type="checkbox"
+                checked={checked}
+                onChange={checkboxSelect}
+            />
+            {checked ? "" : ""}
 
-            <SensorChart data={inflationData} data2 = {cpiData}/>
+            <SensorChart data={inflation} data2 = {cpi}/>
             
         </div>
     </MuiThemeProvider>
