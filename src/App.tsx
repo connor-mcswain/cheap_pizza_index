@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SensorChart from "./SensorChart";
 import StackedLines from "./StackedLines";
 import {temperatureData} from "./Data";
 import {temperatureData2} from "./Data2";
+import {inflationData} from "./Data3";
+import {cpiData} from "./Data4";
 import {createMuiTheme, MuiThemeProvider, Theme, withStyles, createStyles, WithStyles} from "@material-ui/core";
 
 const theme = createMuiTheme({
@@ -32,10 +34,11 @@ const styles = createStyles({
 });
 
 const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
+    const [checkboxes, setCheckBoxes] = useState([{id: 1, value: "cpi", isChecked: true}, {id: 2, value: "m2", isChecked: true}]);
     return <MuiThemeProvider theme={theme}>
         <div className={props.classes.root}>
-            <SensorChart data={temperatureData} data2 = {temperatureData2}/>
-            {/* <div style={{"height" : "1000px", "width" : "1000px"}}><StackedLines /></div> */}
+
+            <SensorChart data={inflationData} data2 = {cpiData}/>
             
         </div>
     </MuiThemeProvider>

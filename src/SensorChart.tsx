@@ -27,12 +27,13 @@ const styles = (theme: Theme) => createStyles({
     },
     toolTip: {
         backgroundColor: "white",
-        border: "2px solid " + theme.palette.primary.main,
+        //border: "2px solid " + theme.palette.primary.main,
         borderRadius: theme.spacing(2),
         padding: theme.spacing(2),
         fontFamily: "Helvetica",
         fontSize: 12,
-        color: theme.palette.primary.main,
+        //color: theme.palette.primary.main,
+        //color: line.color,
         fontWeight: "bold",
         boxShadow: "0px 5px 15px rgba(0,0,0,0.1)",
         marginBottom: theme.spacing(2),
@@ -43,7 +44,7 @@ const styles = (theme: Theme) => createStyles({
 
 interface SensorReading {
     value: number,
-    time: number,
+    time: string,
 }
 
 interface PlotProps extends WithStyles<typeof styles> {
@@ -110,7 +111,7 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
         setSeries([{
             id: "Temperature",
             data: props.data
-                .sort((r1, r2) => r1.time - r2.time)
+                //.sort((r1, r2) => Date(r1.time) - r2.time)
                 .map(reading => {
                     return {
                         x: reading.time,
@@ -122,7 +123,7 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
             {
                 id: "Temperature2",
                 data: props.data2
-                    .sort((r1, r2) => r1.time - r2.time)
+                    //.sort((r1, r2) => r1.time - r2.time)
                     .map(reading => {
                         return {
                             x: reading.time,
@@ -151,8 +152,8 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
 
     const xScale: Scale = {
         type: "time",
-        precision: "minute",
-        format: "%s",
+        precision: "year",
+        format: "%Y",
     };
 
     let margin = {
@@ -163,13 +164,13 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
     };
 
     const axisBottom: AxisProps = {
-        format: "%H:%M",
+        format: "%Y",
         tickValues: 5,
 
     };
 
     const axisLeft: AxisProps = {
-        legend: "Temperature",
+        legend: "US Dollars",
         legendOffset: -32,
         legendPosition: "middle",
         tickSize: 0,
@@ -178,8 +179,8 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
     };
 
     const toolTipElement = (props: PointTooltipProps) => {
-        return <div className={classes.toolTip}>
-            {props.point.data.y} °C
+        return <div className={classes.toolTip} style={{ color: props.point.color, border: "2px solid " + props.point.color}}>
+            ${props.point.data.y}
         </div>
     };
 
