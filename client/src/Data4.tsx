@@ -1,18 +1,18 @@
 export interface InflationReading {
     value: number,
-    time: string,
+    year: string,
 }
 
 export const cpiData: InflationReading[] = [{
     "value": 1,
-    "time": "2016"
+    "year": "2016"
 }, {
     "value": 2,
-    "time": "2017"
+    "year": "2017"
 }, {
     "value": 6.1,
-    "time": "2018"
+    "year": "2018"
 }, {
     "value": 0.1,
-    "time": "2019"
+    "year": "2019"
 }];

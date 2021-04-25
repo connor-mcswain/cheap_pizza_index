@@ -43,7 +43,7 @@ const styles = (theme: Theme) => createStyles({
 
 interface SensorReading {
     value: number,
-    time: string,
+    year: string,
 }
 
 interface PlotProps extends WithStyles<typeof styles> {
@@ -113,7 +113,7 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
                 //.sort((r1, r2) => r1.time - r2.time)
                 .map(reading => {
                     return {
-                        x: reading.time,
+                        x: reading.year,
                         y: reading.value,
                     }
                 }),
@@ -125,7 +125,7 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
                     //.sort((r1, r2) => r1.time - r2.time)
                     .map(reading => {
                         return {
-                            x: reading.time,
+                            x: reading.year,
                             y: reading.value,
                         }
                     }),
