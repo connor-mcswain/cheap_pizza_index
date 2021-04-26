@@ -37,25 +37,76 @@ interface InflationReading {
 }
 
 const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState(true);
+    const [stocks, setStocks] = useState(true);
+    const [housing, setHousing] = useState(true);
+    const [education, setEducation] = useState(true);
+    const [healthcare, setHealthcare] = useState(true);
     const [inflation, setInflation] = useState(inflationData);
     const [cpi, setCpi] = useState(cpiData);
     
     //const [checkboxes, setCheckBoxes] = useState([{id: 1, value: "cpi", isChecked: true}, {id: 2, value: "m2", isChecked: true}]);
 
     const getInflation = async () => {
-        const test = await fetch(`http://localhost:5000/inflations`, {
-            method: "GET"
-        });
+        //const body = "test,test2";
+        var categories = [];
 
-        const jsonData: InflationReading[] = await test.json();
+        if (stocks == true) {
+            categories.push("stocks");
+        }
+        if (housing == true) {
+            categories.push("housing");
+        }
+        if (education == true) {
+            categories.push("education");
+        }
+        if (healthcare == true) {
+            categories.push("healthcare");
+        }
+        
+        if (categories.length > 0) {
+            const body = categories.toString();
 
-        setCpi(jsonData);
+            console.log(body);
+            console.log("test");
+            const test = await fetch(`http://localhost:5000/inflations/${body}`, {
+                method: "GET"
+            });
+
+            console.log(test);
+
+            const jsonData: InflationReading[] = await test.json();
+
+            console.log(jsonData);
+
+            setInflation(jsonData);
+            
+        }
     }
 
     useEffect(() => {
         getInflation();
-    }, []);
+    }, [stocks, housing, education, healthcare]);
+
+    const stocksSelect = () => {
+        setStocks(stocks => !stocks)
+        getInflation()
+    }
+
+    const housingSelect = () => {
+        setHousing(housing => !housing)
+        getInflation()
+    }
+
+    const educationSelect = () => {
+        setEducation(education => !education)
+        getInflation()
+    }
+
+    const healthcareSelect = () => {
+        setHealthcare(healthcare => !healthcare)
+        getInflation()
+    }
 
     const checkboxSelect = () => {
         console.log(inflation)
@@ -76,10 +127,32 @@ const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
         <div className={props.classes.root}>
             <input
                 type="checkbox"
-                checked={checked}
-                onChange={checkboxSelect}
+                checked={stocks}
+                onChange={stocksSelect}
             />
-            {checked ? "" : ""}
+            Stocks<br />
+
+            <input
+                type="checkbox"
+                checked={housing}
+                onChange={housingSelect}
+            />
+            Housing
+
+            <input
+                type="checkbox"
+                checked={education}
+                onChange={educationSelect}
+            />
+            Education and Childcare
+
+            <input
+                type="checkbox"
+                checked={healthcare}
+                onChange={healthcareSelect}
+            />
+            Healthcare
+
 
             <SensorChart data={inflation} data2 = {cpi}/>
             

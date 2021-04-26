@@ -4,15 +4,9 @@ export interface InflationReading {
 }
 
 export const inflationData: InflationReading[] = [{
-    "value": 0.1,
-    "year": "2016"
+    "value": 0,
+    "year": "1996"
 }, {
-    "value": 3,
-    "year": "2017"
-}, {
-    "value": 2.4,
-    "year": "2018"
-}, {
-    "value": 6.1,
-    "year": "2019"
+    "value": 300,
+    "year": "2020"
 }];

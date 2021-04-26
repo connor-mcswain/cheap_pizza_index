@@ -110,7 +110,7 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
         setSeries([{
             id: "Temperature",
             data: props.data
-                //.sort((r1, r2) => r1.time - r2.time)
+                .sort((r1, r2) => parseInt(r1.year) - parseInt(r2.year))
                 .map(reading => {
                     return {
                         x: reading.year,
@@ -122,7 +122,7 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
             {
                 id: "Temperature2",
                 data: props.data2
-                    //.sort((r1, r2) => r1.time - r2.time)
+                    .sort((r1, r2) => parseInt(r1.year) - parseInt(r2.year))
                     .map(reading => {
                         return {
                             x: reading.year,
@@ -133,7 +133,7 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
                 }
             ]);
 
-        let yValues = props.data.map(d => d.value);
+        let yValues = props.data2.map(d => d.value);
         let minValue = yValues.reduce((v1, v2) => v1 > v2 ? v2 : v1);
         let maxValue = yValues.reduce((v1, v2) => v1 > v2 ? v1 : v2);
         setMinY(minValue - getStdDeviation(yValues));
