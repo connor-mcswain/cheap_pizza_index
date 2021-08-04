@@ -3,109 +3,109 @@ export interface InflationReading {
     year: string,
 }
 
-export const cpiData: InflationReading[] = [
+export const blankCPI: InflationReading[] = [
     {
         "year": "2013",
-        "value": 49.76
+        "value": 0
     },
     {
         "year": "2014",
-        "value": 52.09
+        "value": 0
     },
     {
         "year": "2016",
-        "value": 53.62
+        "value": 0
     },
     {
         "year": "2015",
-        "value": 51.74
+        "value": 0
     },
     {
         "year": "2011",
-        "value": 42.98
+        "value": 0
     },
     {
         "year": "2000",
-        "value": 9.44
+        "value": 0
     },
     {
         "year": "2007",
-        "value": 31.50
+        "value": 0
     },
     {
         "year": "2008",
-        "value": 37.15
+        "value": 0
     },
     {
         "year": "2002",
-        "value": 14.87
+        "value": 0
     },
     {
         "year": "2001",
-        "value": 13.51
+        "value": 0
     },
     {
         "year": "2010",
-        "value": 40.59
+        "value": 0
     },
     {
         "year": "2019",
-        "value": 63.18
+        "value": 0
     },
     {
         "year": "1998",
-        "value": 4.72
+        "value": 0
     },
     {
         "year": "2012",
-        "value": 47.28
+        "value": 0
     },
     {
         "year": "1996",
-        "value": 0.00
+        "value": 0
     },
     {
         "year": "2006",
-        "value": 28.83
+        "value": 0
     },
     {
         "year": "2004",
-        "value": 20.43
+        "value": 0
     },
     {
         "year": "2017",
-        "value": 57.48
+        "value": 0
     },
     {
         "year": "2018",
-        "value": 60.78
+        "value": 0
     },
     {
         "year": "2009",
-        "value": 37.00
+        "value": 0
     },
     {
         "year": "2003",
-        "value": 18.03
+        "value": 0
     },
     {
         "year": "2020",
-        "value": 67.22
+        "value": 0
     },
     {
         "year": "1999",
-        "value": 6.46
-    },
-    {
-        "year": "2021",
-        "value": 69.51
+        "value": 0
     },
     {
         "year": "2005",
-        "value": 23.85
+        "value": 0
     },
     {
         "year": "1997",
-        "value": 3.04
+        "value": 0
+    },
+    {
+        "year": "2021",
+        "value": 0
     }
 ];

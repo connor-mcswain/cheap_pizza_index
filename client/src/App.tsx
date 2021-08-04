@@ -3,7 +3,10 @@ import SensorChart from "./SensorChart";
 import StackedLines from "./StackedLines";
 import {inflationData} from "./Data3";
 import {cpiData} from "./Data4";
-import {createMuiTheme, MuiThemeProvider, Theme, withStyles, createStyles, WithStyles} from "@material-ui/core";
+import {m2Data} from "./Data5";
+import {blankCPI} from "./Data6";
+import {createMuiTheme, MuiThemeProvider, Theme, withStyles, createStyles, WithStyles, TextareaAutosize} from "@material-ui/core";
+import Grid from '@material-ui/core/Grid';
 
 const theme = createMuiTheme({
     palette: {
@@ -24,10 +27,17 @@ const theme = createMuiTheme({
 const styles = createStyles({
     root: {
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        flexDirection: "column",
+        //alignItems: "center",
+        //justifyContent: "center",
         height: "100vh",
         backgroundColor: theme.palette.primary.light,
+        margin: "0 auto",
+        //width: "100vw",
+        //marginLeft: "500px",
+        //marginRight: "500px"
+
+        fontFamily: "Helvetica",
     }
 });
 
@@ -44,6 +54,7 @@ const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
     const [healthcare, setHealthcare] = useState(true);
     const [inflation, setInflation] = useState(inflationData);
     const [cpi, setCpi] = useState(cpiData);
+    const [m2, setM2] = useState(m2Data);
     
     //const [checkboxes, setCheckBoxes] = useState([{id: 1, value: "cpi", isChecked: true}, {id: 2, value: "m2", isChecked: true}]);
 
@@ -63,7 +74,10 @@ const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
         if (healthcare == true) {
             categories.push("healthcare");
         }
-        
+
+        console.log("categories:");
+        console.log(categories);
+
         if (categories.length > 0) {
             const body = categories.toString();
 
@@ -82,6 +96,10 @@ const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
             setInflation(jsonData);
             
         }
+        else {
+            console.log("blank");
+            setInflation(blankCPI);
+        }
     }
 
     useEffect(() => {
@@ -90,24 +108,24 @@ const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
 
     const stocksSelect = () => {
         setStocks(stocks => !stocks)
-        getInflation()
+        //getInflation()
     }
 
     const housingSelect = () => {
         setHousing(housing => !housing)
-        getInflation()
+        //getInflation()
     }
 
     const educationSelect = () => {
         setEducation(education => !education)
-        getInflation()
+        //getInflation()
     }
 
     const healthcareSelect = () => {
         setHealthcare(healthcare => !healthcare)
-        getInflation()
+        //getInflation()
     }
-
+/*
     const checkboxSelect = () => {
         console.log(inflation)
         setChecked(checked => !checked)
@@ -121,41 +139,64 @@ const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
             //setCpi(cpiData)
         }
         
-    };
+    };*/
 
     return <MuiThemeProvider theme={theme}>
+        
         <div className={props.classes.root}>
-            <input
-                type="checkbox"
-                checked={stocks}
-                onChange={stocksSelect}
-            />
-            Stocks<br />
+            <Grid container /*alignItems = "center" justify="center"*/>
+                <Grid item xs={6}>
+                    Cheap Pizza Index (CPI)
 
-            <input
-                type="checkbox"
-                checked={housing}
-                onChange={housingSelect}
-            />
-            Housing
-
-            <input
-                type="checkbox"
-                checked={education}
-                onChange={educationSelect}
-            />
-            Education and Childcare
-
-            <input
-                type="checkbox"
-                checked={healthcare}
-                onChange={healthcareSelect}
-            />
-            Healthcare
-
-
-            <SensorChart data={inflation} data2 = {cpi}/>
+                </Grid>
+                <Grid item xs={6}>
             
+                    <div>
+                    <input
+                        type="checkbox"
+                        checked={stocks}
+                        onChange={stocksSelect}
+                    />
+                    Stocks (<a href="https://finance.yahoo.com/quote/%5EGSPC/history/">S&P 500</a>)
+                    </div>
+                    
+                    <div>
+                    <input
+                        type="checkbox"
+                        checked={housing}
+                        onChange={housingSelect}
+                    />
+                    Housing (<a href="https://dqydj.com/historical-home-prices/">USA Median SFH Prices</a>)
+                    </div>
+
+                    <div>
+                    <input
+                        type="checkbox"
+                        checked={education}
+                        onChange={educationSelect}
+                    />
+                    Education and Childcare (<a href="https://fred.stlouisfed.org/series/CUSR0000SEEB">USA Average Tuition and Childcare Prices</a>)
+                    </div>
+
+                    <div>
+                    <input
+                        type="checkbox"
+                        checked={healthcare}
+                        onChange={healthcareSelect}
+                    />
+                    Healthcare (<a href="https://www.kff.org/report-section/ehbs-2020-section-1-cost-of-health-insurance/">USA Average Premiums for Family Coverage</a>)
+                    </div>
+
+                    <span>{<br/>}</span>
+
+                    <div style={{"height" : "550px", "width" : "600px"}}>
+                    
+                        <SensorChart data={inflation} data2 = {cpi} data3 = {m2}/>
+                    </div>
+
+                </Grid>
+
+            </Grid>
         </div>
     </MuiThemeProvider>
 };

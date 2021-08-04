@@ -10,14 +10,21 @@ import {
 import {Scale} from '@nivo/scales'
 import {AxisProps} from '@nivo/axes'
 import {getStdDeviation} from "./Utils";
+import { findByLabelText } from "@testing-library/react";
 
 const styles = (theme: Theme) => createStyles({
     chartRoot: {
         padding: theme.spacing(6),
         borderRadius: theme.spacing(2),
         backgroundColor: "white",
-        width: 620,
-        height: 240,
+        //width: 500,
+        //height: 400,
+        display: "flex",
+        //flexDirection: "column",
+        //width: "99%",
+        minWidth: 0,
+        height: "100%",
+        width: "100%",
         border: "1px solid rgba(0,0,0,0.15)",
         transition: "box-shadow 0.3s ease-in-out",
         "&:hover": {
@@ -48,7 +55,8 @@ interface SensorReading {
 
 interface PlotProps extends WithStyles<typeof styles> {
     data: SensorReading[],
-    data2: SensorReading[]
+    data2: SensorReading[],
+    data3: SensorReading[]
 }
 
 const SensorChart: React.FunctionComponent<PlotProps> = props => {
@@ -75,13 +83,13 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
                 legend: {
                     text: {
                         fill: hover ? light : dark,
-                        fontSize: 12,
+                        fontSize: 15,
                     }
                 },
                 ticks: {
                     text: {
                         fill: "rgba(0,0,0,0.3)",
-                        fontSize: 12,
+                        fontSize: 13,
                     },
                     line: {
                         stroke: "rgba(0,0,0,0.3)",
@@ -107,39 +115,55 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
 
     useEffect(() => {
 
-        setSeries([{
-            id: "Temperature",
-            data: props.data
-                .sort((r1, r2) => parseInt(r1.year) - parseInt(r2.year))
-                .map(reading => {
-                    return {
-                        x: reading.year,
-                        y: reading.value,
-                    }
-                }),
-            
-            },
+        setSeries([
             {
-                id: "Temperature2",
+                id: "Cheap Pizza Index",
                 data: props.data2
                     .sort((r1, r2) => parseInt(r1.year) - parseInt(r2.year))
                     .map(reading => {
                         return {
-                            x: reading.year,
+                            x: (parseInt(reading.year) + 1).toString(),
                             y: reading.value,
                         }
                     }),
                 
-                }
-            ]);
+            },
+            {
+                id: "Market Basket",
+                data: props.data
+                    .sort((r1, r2) => parseInt(r1.year) - parseInt(r2.year))
+                    .map(reading => {
+                        return {
+                            // adding the plus 1 since the axes were off by 1
+                            x: (parseInt(reading.year) + 1).toString(),
+                            y: reading.value,
+                        }
+                    }),
+                
+            },
+            {
+                id: "M2 Money Supply",
+                data: props.data3
+                    .sort((r1, r2) => parseInt(r1.year) - parseInt(r2.year))
+                    .map(reading => {
+                        return {
+                            x: (parseInt(reading.year) + 1).toString(),
+                            y: reading.value,
+                        }
+                    }),
+                
+            }
+        ]);
 
-        let yValues = props.data2.map(d => d.value);
+        let yValues = props.data3.map(d => d.value);
         let minValue = yValues.reduce((v1, v2) => v1 > v2 ? v2 : v1);
         let maxValue = yValues.reduce((v1, v2) => v1 > v2 ? v1 : v2);
-        setMinY(minValue - getStdDeviation(yValues));
-        setMaxY(maxValue + getStdDeviation(yValues));
+        setMinY(minValue - (getStdDeviation(yValues)/10));
+        setMaxY(maxValue + (getStdDeviation(yValues)/1.5));
 
-    }, [props.data, props.data2]);
+        
+
+    }, [props.data, props.data2, props.data3]);
 
     const yScale = useCallback((): Scale => {
         return {
@@ -151,42 +175,43 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
 
     const xScale: Scale = {
         type: "time",
-        precision: "year",
+        //type: "point",
+        //precision: "day",
         format: "%Y",
     };
 
     let margin = {
         top: 10,
-        right: 0,
+        right: 20,
         bottom: 30,
-        left: 40
+        left: 56
     };
 
     const axisBottom: AxisProps = {
         format: "%Y",
-        tickValues: 5,
+        tickValues: 8
 
     };
 
     const axisLeft: AxisProps = {
-        legend: "US Dollars",
-        legendOffset: -32,
+        legend: "Percentage Increase Since 1996",
+        legendOffset: -50,
         legendPosition: "middle",
         tickSize: 0,
-        tickValues: 2,
+        tickValues: 6,
         tickPadding: 4,
     };
 
     const toolTipElement = (props: PointTooltipProps) => {
         return <div className={classes.toolTip} style={{ color: props.point.color, border: "2px solid " + props.point.color}}>
-            $ {props.point.data.y}
+            {props.point.data.y}%
         </div>
     };
 
     return <div className={classes.chartRoot}
                 onMouseEnter={() => setHover(true)}
                 onMouseLeave={() => setHover(false)}>
-
+        
         <ResponsiveLine
             curve={"monotoneX"}
             data={series}
@@ -231,6 +256,7 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
                 }
             ]}
         />
+        
     </div>
 };
 
