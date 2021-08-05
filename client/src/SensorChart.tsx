@@ -7,7 +7,7 @@ import {
     WithStyles,
     useTheme
 } from "@material-ui/core";
-import {Scale} from '@nivo/scales'
+import {Scale, ScaleLinear, ScaleTime, ScaleLinearSpec, ScaleTimeSpec} from '@nivo/scales'
 import {AxisProps} from '@nivo/axes'
 import {getStdDeviation} from "./Utils";
 import { findByLabelText } from "@testing-library/react";
@@ -165,19 +165,28 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
 
     }, [props.data, props.data2, props.data3]);
 
-    const yScale = useCallback((): Scale => {
+    /*
+    const yScale = useCallback((): ScaleLinear => {
         return {
             type: "linear",
             min: minY,
             max: maxY,
         }
-    }, [minY, maxY]);
+    }, [minY, maxY]);*/
 
-    const xScale: Scale = {
+    const yScale: ScaleLinearSpec = {
+        type: "linear",
+        //min: -10,
+        //max: 500
+        min: -10,
+        max: 500
+    }
+
+    const xScale: ScaleTimeSpec = {
         type: "time",
         //type: "point",
         //precision: "day",
-        format: "%Y",
+        format: "%Y"
     };
 
     let margin = {
@@ -221,7 +230,7 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
             enableGridY={hover}
             enableGridX={hover}
             margin={margin}
-            yScale={yScale()}
+            yScale={yScale}
             xScale={xScale}
             axisBottom={axisBottom}
             axisLeft={axisLeft}

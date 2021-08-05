@@ -60,6 +60,7 @@ const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
 
     const getInflation = async () => {
         //const body = "test,test2";
+
         var categories = [];
 
         if (stocks == true) {
@@ -81,9 +82,11 @@ const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
         if (categories.length > 0) {
             const body = categories.toString();
 
+            // proxy
+
             console.log(body);
             console.log("test");
-            const test = await fetch(`http://localhost:5000/inflations/${body}`, {
+            const test = await fetch(`/inflations/${body}`, {
                 method: "GET"
             });
 
