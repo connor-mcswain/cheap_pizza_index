@@ -198,7 +198,7 @@ const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
                         checked={housing}
                         onChange={housingSelect}
                     />
-                    Housing (<a href="https://dqydj.com/historical-home-prices/">USA Median SFH Prices</a>)
+                    Housing (<a href="https://dqydj.com/historical-home-prices/" target = "_blank">USA Median SFH Prices</a>)
                     </div>
 
                     <div>
@@ -207,7 +207,7 @@ const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
                         checked={education}
                         onChange={educationSelect}
                     />
-                    Education and Childcare (<a href="https://fred.stlouisfed.org/series/CUSR0000SEEB">USA Average Tuition and Childcare Prices</a>)
+                    Education and Childcare (<a href="https://fred.stlouisfed.org/series/CUSR0000SEEB" target = "_blank">USA Average Tuition and Childcare Prices</a>)
                     </div>
 
                     <div>
@@ -216,7 +216,7 @@ const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
                         checked={healthcare}
                         onChange={healthcareSelect}
                     />
-                    Healthcare (<a href="https://www.kff.org/report-section/ehbs-2020-section-1-cost-of-health-insurance/">USA Average Premiums for Family Coverage</a>)
+                    Healthcare (<a href="https://www.kff.org/report-section/ehbs-2020-section-1-cost-of-health-insurance/" target = "_blank">USA Average Premiums for Family Coverage</a>)
                     </div>
 
                     <div>
@@ -225,7 +225,7 @@ const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
                         checked={stocks}
                         onChange={stocksSelect}
                     />
-                    Stocks (<a href="https://finance.yahoo.com/quote/%5EGSPC/history/">S&P 500</a>)
+                    Stocks (<a href="https://finance.yahoo.com/quote/%5EGSPC/history/" target = "_blank">S&P 500</a>)
                     </div>
                     </Grid>
                     </Grid>
