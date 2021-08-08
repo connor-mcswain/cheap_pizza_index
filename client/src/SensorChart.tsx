@@ -38,7 +38,7 @@ const styles = (theme: Theme) => createStyles({
         borderRadius: theme.spacing(2),
         padding: theme.spacing(2),
         fontFamily: "Helvetica",
-        fontSize: 12,
+        fontSize: 13,
         //color: theme.palette.primary.main,
         fontWeight: "bold",
         boxShadow: "0px 5px 15px rgba(0,0,0,0.1)",
@@ -100,8 +100,13 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
                     line: {
                         stroke: "rgba(0,0,0,0.1)",
                         strokeWidth: 1,
-                    }
+                    },
                 },
+            },
+            legends: {
+                text: {
+                    fontSize: 14
+                }
             },
             crosshair: {
                 line: {
@@ -117,7 +122,7 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
 
         setSeries([
             {
-                id: "Cheap Pizza Index",
+                id: "CPI",
                 data: props.data2
                     .sort((r1, r2) => parseInt(r1.year) - parseInt(r2.year))
                     .map(reading => {
@@ -253,7 +258,7 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
                     symbolShape: 'circle',
                     itemDirection: 'left-to-right',
                     itemTextColor: '#777',
-                    effects: [
+                    /*effects: [
                         {
                             on: 'hover',
                             style: {
@@ -261,7 +266,7 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
                                 itemOpacity: 1
                             }
                         }
-                    ]
+                    ]*/
                 }
             ]}
         />
