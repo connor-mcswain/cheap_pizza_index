@@ -78,8 +78,8 @@ const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
         }
 
         if (categories.length > 0) {
-            const body = categories.toString();
-            const response = await fetch(`/inflation/${body}`, {
+            const path = categories.toString();
+            const response = await fetch(`/inflation/${path}`, {
                 method: "GET"
             });
 
