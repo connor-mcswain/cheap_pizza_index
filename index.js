@@ -31,12 +31,22 @@ app.get("/inflation/:categories", async (req, res) => {
 
         str += "GROUP BY year";
         const allInflations = await pool.query(str); 
-
         res.json(allInflations.rows);
     } catch (err) {
         console.error(err.message);
     }
 });
+
+app.get("/inflation", async (req, res) => {
+    try {
+        var categories = "'" + req.query.category.join("','") + "'";
+        var inflationQuery = "SELECT year, ROUND(AVG(value),2) as value FROM inflation WHERE category IN (" + categories + ") GROUP BY year"
+        const allInflations = await pool.query(inflationQuery);
+        res.json(allInflations.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+})
 
 app.listen(PORT, () => {
     console.log(`server is listening on port ${PORT}`);
