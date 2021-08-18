@@ -77,9 +77,6 @@ const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
             categories.push("healthcare");
         }
 
-        console.log("categories:");
-        console.log(categories);
-
         if (categories.length > 0) {
             const body = categories.toString();
             const response = await fetch(`/inflation/${body}`, {
@@ -90,7 +87,6 @@ const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
             setInflation(jsonData);
         }
         else {
-            console.log("blank");
             setInflation(blankCPI);
         }
     }
