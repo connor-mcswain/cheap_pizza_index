@@ -46,9 +46,9 @@ interface InflationReading {
 }
 
 interface PlotProps extends WithStyles<typeof styles> {
-    data: InflationReading[],
-    data2: InflationReading[],
-    data3: InflationReading[]
+    basketData: InflationReading[],
+    cpiData: InflationReading[],
+    m2Data: InflationReading[]
 }
 
 const InflationChart: React.FunctionComponent<PlotProps> = props => {
@@ -113,7 +113,7 @@ const InflationChart: React.FunctionComponent<PlotProps> = props => {
         setSeries([
             {
                 id: "CPI",
-                data: props.data2
+                data: props.cpiData
                     .sort((r1, r2) => parseInt(r1.year) - parseInt(r2.year))
                     .map(reading => {
                         return {
@@ -125,7 +125,7 @@ const InflationChart: React.FunctionComponent<PlotProps> = props => {
             },
             {
                 id: "Market Basket",
-                data: props.data
+                data: props.basketData
                     .sort((r1, r2) => parseInt(r1.year) - parseInt(r2.year))
                     .map(reading => {
                         return {
@@ -137,7 +137,7 @@ const InflationChart: React.FunctionComponent<PlotProps> = props => {
             },
             {
                 id: "M2 Money Supply",
-                data: props.data3
+                data: props.m2Data
                     .sort((r1, r2) => parseInt(r1.year) - parseInt(r2.year))
                     .map(reading => {
                         return {
@@ -148,7 +148,7 @@ const InflationChart: React.FunctionComponent<PlotProps> = props => {
                 
             }
         ]);
-    }, [props.data, props.data2, props.data3]);
+    }, [props.basketData, props.cpiData, props.m2Data]);
 
     const yScale: ScaleLinearSpec = {
         type: "linear",

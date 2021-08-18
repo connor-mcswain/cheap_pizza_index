@@ -184,7 +184,7 @@ const App: React.FunctionComponent<WithStyles<typeof styles>> = props => {
             <span>{<br/>}</span>
 
             <div style={{"height" : "550px", "width" : "650px", "marginRight": "50px"}}>
-                <InflationChart data={inflation} data2 = {cpi} data3 = {m2}/>
+                <InflationChart basketData={inflation} cpiData = {cpi} m2Data = {m2}/>
             </div>
             
             <div style = {{width: 1050, textAlign: "left", marginTop: 90}}>
