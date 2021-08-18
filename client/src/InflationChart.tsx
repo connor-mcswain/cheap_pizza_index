@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {PointTooltipProps, ResponsiveLine, Serie} from "@nivo/line";
 import {
     Theme,
@@ -7,21 +7,15 @@ import {
     WithStyles,
     useTheme
 } from "@material-ui/core";
-import {Scale, ScaleLinear, ScaleTime, ScaleLinearSpec, ScaleTimeSpec} from '@nivo/scales'
+import {ScaleLinearSpec, ScaleTimeSpec} from '@nivo/scales'
 import {AxisProps} from '@nivo/axes'
-import {getStdDeviation} from "./Utils";
-import { findByLabelText } from "@testing-library/react";
 
 const styles = (theme: Theme) => createStyles({
     chartRoot: {
         padding: theme.spacing(6),
         borderRadius: theme.spacing(2),
         backgroundColor: "white",
-        //width: 500,
-        //height: 400,
         display: "flex",
-        //flexDirection: "column",
-        //width: "99%",
         minWidth: 0,
         height: "100%",
         width: "100%",
@@ -34,12 +28,10 @@ const styles = (theme: Theme) => createStyles({
     },
     toolTip: {
         backgroundColor: "white",
-        //border: "2px solid " + theme.palette.primary.main,
         borderRadius: theme.spacing(2),
         padding: theme.spacing(2),
         fontFamily: "Helvetica",
         fontSize: 13,
-        //color: theme.palette.primary.main,
         fontWeight: "bold",
         boxShadow: "0px 5px 15px rgba(0,0,0,0.1)",
         marginBottom: theme.spacing(2),
@@ -48,25 +40,23 @@ const styles = (theme: Theme) => createStyles({
 });
 
 
-interface SensorReading {
+interface InflationReading {
     value: number,
     year: string,
 }
 
 interface PlotProps extends WithStyles<typeof styles> {
-    data: SensorReading[],
-    data2: SensorReading[],
-    data3: SensorReading[]
+    data: InflationReading[],
+    data2: InflationReading[],
+    data3: InflationReading[]
 }
 
-const SensorChart: React.FunctionComponent<PlotProps> = props => {
+const InflationChart: React.FunctionComponent<PlotProps> = props => {
 
     const {classes} = props;
     const theme = useTheme();
     const [hover, setHover] = useState<boolean>(false);
     const [series, setSeries] = useState<Serie[]>([]);
-    const [minY, setMinY] = useState(0);
-    const [maxY, setMaxY] = useState(0);
 
     const light = theme.palette.primary.main;
     const dark = theme.palette.primary.dark;
@@ -139,7 +129,6 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
                     .sort((r1, r2) => parseInt(r1.year) - parseInt(r2.year))
                     .map(reading => {
                         return {
-                            // adding the plus 1 since the axes were off by 1
                             x: (parseInt(reading.year) + 1).toString(),
                             y: reading.value,
                         }
@@ -159,38 +148,16 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
                 
             }
         ]);
-
-        let yValues = props.data3.map(d => d.value);
-        let minValue = yValues.reduce((v1, v2) => v1 > v2 ? v2 : v1);
-        let maxValue = yValues.reduce((v1, v2) => v1 > v2 ? v1 : v2);
-        setMinY(minValue - (getStdDeviation(yValues)/10));
-        setMaxY(maxValue + (getStdDeviation(yValues)/1.5));
-
-        
-
     }, [props.data, props.data2, props.data3]);
-
-    /*
-    const yScale = useCallback((): ScaleLinear => {
-        return {
-            type: "linear",
-            min: minY,
-            max: maxY,
-        }
-    }, [minY, maxY]);*/
 
     const yScale: ScaleLinearSpec = {
         type: "linear",
-        //min: -10,
-        //max: 500
         min: -10,
         max: 500
     }
 
     const xScale: ScaleTimeSpec = {
         type: "time",
-        //type: "point",
-        //precision: "day",
         format: "%Y"
     };
 
@@ -230,7 +197,6 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
             curve={"monotoneX"}
             data={series}
             theme={chartTheme()}
-            // colors={[hover ? light : dark]}
             colors={{ scheme: 'dark2'}}
             enableGridY={hover}
             enableGridX={hover}
@@ -258,21 +224,11 @@ const SensorChart: React.FunctionComponent<PlotProps> = props => {
                     symbolShape: 'circle',
                     itemDirection: 'left-to-right',
                     itemTextColor: '#777',
-                    /*effects: [
-                        {
-                            on: 'hover',
-                            style: {
-                                itemBackground: 'rgba(0, 0, 0, .03)',
-                                itemOpacity: 1
-                            }
-                        }
-                    ]*/
                 }
             ]}
         />
-        
     </div>
 };
 
 
-export default withStyles(styles)(SensorChart);
+export default withStyles(styles)(InflationChart);
